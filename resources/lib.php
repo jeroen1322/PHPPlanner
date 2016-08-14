@@ -103,3 +103,13 @@ function addReminder($conn, $reminderInput){
         die("A error occured while adding the reminder. See further information: " . $conn->error);
     }
 }
+
+function showReminders($conn){
+    $showReminder_sql = "SELECT * FROM reminders";
+    
+    if($result = $conn->query($showReminder_sql)){
+        while($row = $result->fetch_assoc()){
+            echo "<li class='list-group-item'><b>" . $row['name'] . "</b></li>";
+        }
+    }
+}

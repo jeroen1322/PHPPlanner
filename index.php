@@ -28,7 +28,7 @@
                                 <button class="btn btn-default" id="new_reminder">Add new reminder</button><br><br>
                                 <div class="new_reminder_field">
                                     <form method="post">
-                                        <input type="text" class="form-control" placeholder="Add something I should remind you about" name="reminder_input" autocomplete="off"><button class="btn btn-default" name="add_reminder" type="submit">Submit</button><br><br>
+                                        <input type="text" class="form-control" placeholder="What should I remind you about?" name="reminder_input" autocomplete="off"><button class="btn btn-default" name="add_reminder" type="submit">Submit</button><br><br>
                                     </form>
                                 </div>
                                 <?php
@@ -38,8 +38,9 @@
                                     }
                                 ?>
                                 <ul class="list-group">
-                                    <li class="list-group-item"><b>Test</b></li>
-                                    <li class="list-group-item"><b>Test</b></li>
+                                    <?php
+                                        showReminders($conn);
+                                    ?>
                                 </ul>
                     <?php
                     }
