@@ -1,1 +1,1 @@
-# RemindMePHP
+# PHPPlanner
