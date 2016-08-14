@@ -93,3 +93,13 @@ function showConfigForm($conn){
         return true;
     }
 }
+
+function addReminder($conn, $reminderInput){
+    $reminder_sql = "INSERT INTO reminders (name) VALUES ('$reminderInput')";
+    if($conn->query($reminder_sql) === TRUE){
+        echo "<div class='alert alert-success'>The reminder has been added successfully!</div>";
+        return true;
+    } else {
+        die("A error occured while adding the reminder. See further information: " . $conn->error);
+    }
+}
