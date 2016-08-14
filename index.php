@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
         <script type="text/javascript" src="./resources/js/jquery.js"></script>
-        <title>RemindMePHP</title>
+        <title>PHPLanner</title>
         <link href="./resources/css/style.css" rel="stylesheet" type="text/css">
     </head>
 
@@ -23,23 +23,27 @@
 
                     if(showConfigForm($conn) === true){
                         ?>
-                            <div class="reminder-list">
-                                <h1>Stuff to remind you about:</h1>
-                                <button class="btn btn-default" id="new_reminder">Add new reminder</button><br><br>
+                            <div class="task-list">
+                                <h1>Stuff to do</h1>
+                                <button class="btn btn-default" id="new_reminder">Add something to do</button><br><br>
                                 <div class="new_reminder_field">
                                     <form method="post">
-                                        <input type="text" class="form-control" placeholder="What should I remind you about?" name="reminder_input" autocomplete="off"><button class="btn btn-default" name="add_reminder" type="submit">Submit</button><br><br>
+                                        <input type="text" class="form-control" placeholder="Name" name="task_name" autocomplete="off"><br>
+                                        <textarea class="form-control" rows="4" placeholder="Description" name="task_description" autocomplete="off"></textarea><br>
+                                        <button class="btn btn-default" name="add_reminder" type="submit">Submit</button><br><br>
                                     </form>
                                 </div>
+                                
                                 <?php
                                     if(isset($_POST['add_reminder'])){
-                                        $reminderInput = htmlspecialchars($_POST['reminder_input']);
-                                        addReminder($conn, $reminderInput);
+                                        $taskName = htmlspecialchars($_POST['task_name']);
+                                        $taskDescription = htmlspecialchars($_POST['task_description']);
+                                        addReminder($conn, $taskName, $taskDescription);
                                     }
                                 ?>
                                 <ul class="list-group">
                                     <?php
-                                        showReminders($conn);
+                                        showTasks($conn);
                                     ?>
                                 </ul>
                     <?php

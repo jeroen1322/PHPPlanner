@@ -8,7 +8,7 @@
     margin-top: 30px;
 }
 
-.reminder-list{
+.task-list{
     padding-top: 100px;
     max-width: 500px;
     margin: 0 auto;
@@ -17,3 +17,10 @@
     max-width: 86%;
     float: left;
 }*/
+
+.id{
+    float: right;
+}
+.list-group-item:hover{
+    background-color:#EBEBEB;
+}

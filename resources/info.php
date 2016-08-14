@@ -3,6 +3,6 @@
     $server = "localhost";
     $username = "root";
     $passw = "";
-    $dbname = "remindmephp";
+    $dbname = "phpplanner";
     $mysqli = new mysqli($server, $username, $passw);
     

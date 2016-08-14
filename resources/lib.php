@@ -13,21 +13,21 @@ function manageDB($server, $username, $passw, $dbname, $mysqli){
         die();
     }
     
-    //Check if the database 'remindmephp' exists.
+    //Check if the database 'phpplanner' exists.
     $dbSelect = mysqli_select_db($mysqli, $dbname);
     
     if($dbSelect === TRUE){
         $conn = new mysqli($server, $username, $passw, $dbname);
         //Query to create the table 'reminders'
-        $reminders_sql = "CREATE TABLE IF NOT EXISTS `reminders` (
+        $reminders_sql = "CREATE TABLE IF NOT EXISTS `tasks` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
             `name` varchar(255) NOT NULL, 
+            `description` varchar(255) NOT NULL,
             PRIMARY KEY (`id`)
         )";
         
         //Query to create the table 'config' 
         $config_sql = "CREATE TABLE IF NOT EXISTS `config` (
-            `email` varchar(255) NOT NULL,
             `name` varchar(255) NOT NULL
         )";
         
@@ -54,15 +54,11 @@ function showConfigForm($conn){
         ?>
         <div class="config_form">
             <h1>Hello there!</h1>
-            <h4>This is your first time running RemindMePHP! <br> We will need some information to send you the reminders. Please fill in your name and email address.</h4>
+            <h4>This is your first time running PHPPlanner! <br> Would you be so kind to please fill in your name? :) </h4>
             <form method="post">
               <div class="form-group">
                 <label for="pwd">Name:</label>
-                <input type="text" class="form-control" id="pwd" name="name">
-              </div>
-              <div class="form-group">
-                <label for="email">Email address:</label>
-                <input type="email" class="form-control" id="email" name="email">
+                <input type="text" class="form-control" id="pwd" name="name" autocomplete="off">
               </div>
               <button type="submit" class="btn btn-default" name="submit_config">Submit</button>
             </form>
@@ -70,11 +66,10 @@ function showConfigForm($conn){
             <?php
                 if(isset($_POST['submit_config'])){
                     $config_name = $_POST['name'];
-                    $config_email = $_POST['email'];
                     
-                    if($config_name && $config_email !== ""){
+                    if($config_name !== ""){
                         
-                        $config_insert_sql = "INSERT INTO config (email, name) VALUES ('$config_email', '$config_name')";
+                        $config_insert_sql = "INSERT INTO config (name) VALUES ('$config_name')";
                         
                         if($conn->query($config_insert_sql) === TRUE){
                             echo "<div class='alert alert-success'>The configuration data has been stored. <br> <a href='index.php'><button class='btn btn-default'>Continue</button></a></div>";
@@ -94,23 +89,23 @@ function showConfigForm($conn){
     }
 }
 
-function addReminder($conn, $reminderInput){
-    $reminder_sql = "INSERT INTO reminders (name) VALUES ('$reminderInput')";
+function addReminder($conn, $taskName, $taskDescription){
+    $reminder_sql = "INSERT INTO tasks (name, description) VALUES ('$taskName', '$taskDescription')";
     if($conn->query($reminder_sql) === TRUE){
-        echo "<div class='alert alert-success'>The reminder has been added successfully!</div>";
+        echo "<div class='alert alert-success'>The task has been added successfully!</div>";
         return true;
     } else {
         die("A error occured while adding the reminder. See further information: " . $conn->error);
     }
 }
 
-function showReminders($conn){
-    $showReminder_sql = "SELECT * FROM reminders";
-    $result = $conn->query($showReminder_sql);
+function showTasks($conn){
+    $showTask_sql = "SELECT * FROM tasks";
+    $result = $conn->query($showTask_sql);
     
     if($result->num_rows > 0){
         while($row = $result->fetch_assoc()){
-            echo "<li class='list-group-item'><b>" . $row['name'] . "</b></li>";
+            echo "<li class='list-group-item'><b>" . $row['name'] . "</b><br><div class='description'>" . $row['description'] . "</div></li>";
         }
     } else {
         echo "<div class='alert alert-warning'>No reminders yet</div>";
