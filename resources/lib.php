@@ -106,10 +106,13 @@ function addReminder($conn, $reminderInput){
 
 function showReminders($conn){
     $showReminder_sql = "SELECT * FROM reminders";
+    $result = $conn->query($showReminder_sql);
     
-    if($result = $conn->query($showReminder_sql)){
+    if($result->num_rows > 0){
         while($row = $result->fetch_assoc()){
             echo "<li class='list-group-item'><b>" . $row['name'] . "</b></li>";
         }
+    } else {
+        echo "<div class='alert alert-warning'>No reminders yet</div>";
     }
 }
